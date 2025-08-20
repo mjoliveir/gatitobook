@@ -1,0 +1,73 @@
+<h4 class="text-center">Registre-se e mostre seu pet ao mundo</h4>
+<form class="form mt-4" [formGroup]="novoUsuarioForm" (submit)="cadastrar()">
+    <div class="form-group">
+        <!-- campo de email -->
+        <input 
+            placeholder="email" 
+            class="form-control"
+            formControlName="email"
+        />
+        <!-- validacão de obrigatoriedade de email-->
+        <app-mensagem 
+            *ngIf="
+            novoUsuarioForm.get('email')?.errors?.required && 
+            novoUsuarioForm.get('email')?.touched" 
+            mensagem="Email obrigatorio">
+        </app-mensagem>
+
+        <!-- validação de formato de email -->
+        <app-mensagem
+            *ngIf="
+            novoUsuarioForm.get('email')?.errors?.email &&
+            novoUsuarioForm.get('email')?.touched
+            "
+            mensagem="Email no formato invalido, por favor verifique seu email"
+            >
+        </app-mensagem>
+    </div>
+    <div class="form-group">
+        <!-- campo de nome -->
+        <input 
+            placeholder="Nome completo" 
+            class="form-control"
+            formControlName="fullName"
+        />
+        <!-- validação de nome -->
+        <app-mensagem
+            *ngIf="novoUsuarioForm.get('fullName')?.errors && novoUsuarioForm.get('fullName')?.touched"
+            mensagem="Campo foi digitado incorretamente, por favor verifique"
+            >
+        </app-mensagem>
+    </div>
+    <div class="form-group">
+        <!-- campo de nome do usuario -->
+        <input 
+            placeholder="Usuario" 
+            class="form-control"
+            formControlName="userName"
+        />
+        <app-mensagem
+        *ngIf="novoUsuarioForm.get('userName')?.errors?.required && novoUsuarioForm.get('userName')?.touched"
+        mensagem="O campo de nome de usuario é obrigatorio, por favor insira seu nome de usuario"
+        ></app-mensagem>
+        <!-- <app-mensagem
+        *ngIf="novoUsuarioForm.get('userName')?.errors?.['minLength'] && novoUsuarioForm.get('userName')?.touched"
+        mensagem="O campo de nome de usuario possui tamanho minimo de 4 digitos, por favor insira um nome de usuario valido"
+        ></app-mensagem> -->
+    </div>
+    <div class="form-group">
+        <input 
+            type="password" placeholder="Senha" 
+            class="form-control"
+            formControlName="password"
+        />
+        <app-mensagem
+        *ngIf="novoUsuarioForm.get('password')?.errors?.required &&
+        novoUsuarioForm.get('password')?.touched"
+        mensagem="Insira sua senha"
+        ></app-mensagem>
+    </div>
+    <button 
+    class="btn btn-primary btn-block">Registrar-se</button>
+    <p>Já é um usuario? <a [routerLink]="['../']">Faça login</a></p>
+</form>
