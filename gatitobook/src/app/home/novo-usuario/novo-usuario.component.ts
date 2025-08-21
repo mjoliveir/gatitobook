@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NovoUsuarioService } from './novo-usuario.service';
 import { NovoUsuario } from './novo-usuario';
+import { minusculoValidator } from './minusculo.validator';
+import { UsuarioExisteService } from './usuario-existe.service';
+import { usuarioSenhaIguaisValidator } from './usuario-senha-iguais.validator';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-novo-usuario',
@@ -12,20 +17,38 @@ export class NovoUsuarioComponent implements OnInit {
 
   novoUsuarioForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private novoUsuarioService: NovoUsuarioService) { }
+  constructor(
+    private formBuilder: FormBuilder, 
+    private novoUsuarioService: NovoUsuarioService,
+    private usuarioExistenteService: UsuarioExisteService,
+    private router : Router
+  ) { }
 
   NovoUsuario = ''
 
   ngOnInit(): void {
-    this.novoUsuarioForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      userName: ['', [Validators.required, Validators.minLength(4)]],
-      fullName: ['', [Validators.required, Validators.minLength(10)]],
-      password: ['', [Validators.required]]
-    })
+      this.novoUsuarioForm = this.formBuilder.group( 
+        {
+        email: ['', [Validators.required, Validators.email]],
+        fullName: ['', [Validators.required, Validators.minLength(10)]],
+        userName: ['', [minusculoValidator], [this.usuarioExistenteService.usuarioJaExiste()]],
+        password: ['', [Validators.required]]
+      },
+      {
+      validators: usuarioSenhaIguaisValidator,
+      }
+    );
   }
   cadastrar(){
+    if (this.novoUsuarioForm.valid){
     const novoUsuario = this.novoUsuarioForm.getRawValue() as NovoUsuario
-    console.log(novoUsuario)
+    this.novoUsuarioService.cadastraNovoUsuario(novoUsuario).subscribe(()=>{
+      this.router.navigate(['']);
+    },
+    (error) =>{
+        console.log(error)
+        }  
+      );
+    }
   }
 }

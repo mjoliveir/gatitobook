@@ -47,13 +47,17 @@
             formControlName="userName"
         />
         <app-mensagem
-        *ngIf="novoUsuarioForm.get('userName')?.errors?.required && novoUsuarioForm.get('userName')?.touched"
-        mensagem="O campo de nome de usuario é obrigatorio, por favor insira seu nome de usuario"
+            *ngIf="novoUsuarioForm.get('userName')?.errors?.required && novoUsuarioForm.get('userName')?.touched"
+            mensagem="O campo de nome de usuario é obrigatorio, por favor insira seu nome de usuario"
         ></app-mensagem>
-        <!-- <app-mensagem
-        *ngIf="novoUsuarioForm.get('userName')?.errors?.['minLength'] && novoUsuarioForm.get('userName')?.touched"
-        mensagem="O campo de nome de usuario possui tamanho minimo de 4 digitos, por favor insira um nome de usuario valido"
-        ></app-mensagem> -->
+        <app-mensagem
+            *ngIf="novoUsuarioForm.get('userName')?.errors?.minusculo && novoUsuarioForm.get('userName')?.touched"
+            mensagem="O campo de nome de usuario possui letras maiusculas, por favor insira um nome de usuario apenas com letras minusculas"
+        ></app-mensagem>
+        <app-mensagem
+            *ngIf="novoUsuarioForm.get('userName')?.errors?.usuarioExistente"
+            mensagem="Nome de usuario já cadastrado">
+        </app-mensagem>
     </div>
     <div class="form-group">
         <input 
@@ -62,9 +66,13 @@
             formControlName="password"
         />
         <app-mensagem
-        *ngIf="novoUsuarioForm.get('password')?.errors?.required &&
-        novoUsuarioForm.get('password')?.touched"
-        mensagem="Insira sua senha"
+            *ngIf="novoUsuarioForm.get('password')?.errors?.required &&
+            novoUsuarioForm.get('password')?.touched"
+            mensagem="Insira sua senha"
+        ></app-mensagem>
+        <app-mensagem
+            *ngIf="novoUsuarioForm.errors?.senhaIgualUsuario"
+            mensagem="A senha deve ser diferente do usuario, por favor verifique sua senha"
         ></app-mensagem>
     </div>
     <button 
