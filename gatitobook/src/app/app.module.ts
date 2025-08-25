@@ -2,14 +2,14 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeModule } from './home/home.module';
 import { HttpClientModule } from '@angular/common/http';
 import { CabecalhoModule } from './componentes/cabecalho/cabecalho.module';
 import { RodapeModule } from './componentes/rodape/rodape.module';
+import { CartaoModule } from './componentes/cartao/cartao.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -17,6 +17,7 @@ import { RodapeModule } from './componentes/rodape/rodape.module';
     HttpClientModule,
     CabecalhoModule,
     RodapeModule,
+    CartaoModule
   ],
   providers: [],
   bootstrap: [AppComponent],
